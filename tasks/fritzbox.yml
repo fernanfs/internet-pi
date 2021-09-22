@@ -1,0 +1,28 @@
+---
+- name: Ensure Fritz!Box directory exists.
+  file:
+    path: "{{ config_dir }}/fritzbox-exporter"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy Fritz!Box docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/fritzbox-docker-compose.yml.j2
+    dest: "{{ config_dir }}/fritzbox-exporter/docker-compose.yml"
+    mode: '0640'
+  become: false
+  notify: Restart fritzbox-exporter
+
+- name: Ensure Fritz!Box Prometheus exporter is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/fritzbox-exporter/"
+    build: false
+  become: false
+
+- name: Copy Fritz!Box dashboard config to grafana.
+  ansible.builtin.copy:
+    src: files/fritzbox-overview.json
+    dest: "{{ config_dir }}/internet-monitoring/grafana/provisioning/dashboards/"
+    mode: 0644
+  become: false

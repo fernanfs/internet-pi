@@ -29,3 +29,8 @@ airgradient_enable: false
 
 # Starlink configuration. (Also requires `monitoring_enable`)
 starlink_enable: false
+
+# Fritz!Box configuration. (Also requires `monitoring_enable`)
+fritzbox_enable: false
+fritzbox_http_username: username
+fritzbox_http_password: "password"

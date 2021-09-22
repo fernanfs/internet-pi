@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+services:
+  fritzbox:
+    container_name: fritzbox_exporter
+    image: kehrhardt/fritzbox_exporter
+    ports:
+      - "9042:9042"
+    environment:
+      USERNAME: '{{ fritzbox_http_username }}'
+      PASSWORD: '{{ fritzbox_http_password }}'
+    restart: unless-stopped
